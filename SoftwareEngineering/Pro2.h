@@ -10,7 +10,7 @@
 #define N 300
 
 //打开文件
-void OpenFile(char buf[M][N], int &n);
+void OpenFile(char SourceFilePath[N], char buf[M][N], int &n);
 
 //统计记录条数
 int CalcHead(char buf[M][N], int n);
@@ -25,16 +25,16 @@ int CalcLongRecordByte(char buf[M][N], int n);
 int CalcTheLongDomainContent(char buf[M][N], int n, char *domain[11], int K1[], int K3[], char CH[11][N]);
 
 //文件写入
-int WriteFile(char buf[M][N], int n);
+int WriteFile(char DestinationFilePath[N], char buf[M][N], int n);
 
 //重新排序写入文件
-int ReorderWriteFiles(char buf[M][N], int n);
+int ReorderWriteFiles(char SourceFilePath[N], char buf[M][N], int n);
 
 //主子串匹配
 int Index(char Sub[N], char T[N]);
 
 //测试函数
-void TPro2();
+int TPro2(char SourceFilePath[N],char DestinationFilePath[N],int YON);
 
 //注释行：121
 //代码行：240

@@ -2,43 +2,47 @@
 
 #include "Pro2.h"
 
-/*************************************************
-*	函数名  ：TPro2                              *
-*   功能    ：测试函数				             *
-*	输入参数：无                                 *
-*	输出参数：无                                 *
-*	返回值  ：无                                 *
-*************************************************/
-void TPro2()
+/*****************************************************
+*	函数名  ：TPro2                                  *
+*   功能    ：测试函数				                 *
+*	输入参数：SourceFilePath[N]     ：源文件路径     *
+*             DestinationFilePath[N]：目标文件路径   *
+*             YON                   ：是否修改源文件 *
+*	输出参数：无                                     *
+*	返回值  ：无                                     *
+*****************************************************/
+int TPro2(char SourceFilePath[N], char DestinationFilePath[N], int YON)
 {
 	int n = 0;
 	char buf[M][N];
-	OpenFile(buf, n);
-	WriteFile(buf, n);
-	ReorderWriteFiles(buf, n);
+	OpenFile(SourceFilePath, buf, n);
+	WriteFile(DestinationFilePath, buf, n);
+	if(YON) ReorderWriteFiles(SourceFilePath, buf, n);
 	printf("The Pro2 is OK!\n");
+	return 0;
 }//TPro2
 
 /*************************************************
 *	函数名  ：OpenFile                           *
 *   功能    ：文件内容读入函数  	             *
-*	输入参数：buf[][]：二位字符串数组（Uninit）  *
+*	输入参数：SourceFilePath[N]     ：源文件路径 *
+*             buf[][]：二位字符串数组（Uninit）  *
 *             n      ：整型n（Uninit）           *
 *	输出参数：buf[][]：二位字符串数组（Init）    *
 *             n      ：整型n（Init）             *
 *	返回值  ：无                                 *
 *************************************************/
-void OpenFile(char buf[M][N],int &n)
+void OpenFile(char SourceFilePath[N],char buf[M][N],int &n)
 {
 	FILE *fp;
-	fp = fopen("res/1.txt", "r");
+	fp = fopen(SourceFilePath, "r");
 	if (!fp)
 		printf("此文件不存在!\n");
 	else
 	{
 		while (fgets(buf[n++], N, fp) != NULL);
-		fclose(fp);
 	}
+	fclose(fp);
 	n -= 1;
 }//OpenFile
 
@@ -173,28 +177,28 @@ int CalcTheLongDomainContent(char buf[M][N], int n, char *domain[11], int K1[], 
 			CH[j][K4 + 1] = '\0';
 		}
 	}
-
 	return 0;
 }//CalcTheLongDomainContent
 
-/*************************************************
-*	函数名  ：WriteFile                          *
-*   功能    ：内容写入文件                       *
-*	输入参数：buf[][]：二位字符串数组（Init）    *
-*             n      ：整型n（Init）             *
-*	输出参数：无                                 *
-*	返回值  ：0 or 1                             *
-*************************************************/
-int WriteFile(char buf[M][N],int n)
+/****************************************************
+*	函数名  ：WriteFile                             *
+*   功能    ：内容写入文件                          *
+*	输入参数：SourceFilePath[N]：源文件路径（Init） *
+*             buf[][]：二位字符串数组（Init）       *
+*             n      ：整型n（Init）                *
+*	输出参数：无                                    *
+*	返回值  ：0 or 1                                *
+****************************************************/
+int WriteFile(char DestinationFilePath[N], char buf[M][N], int n)
 {
 	//K1：每个域名最长长度（Uninit）
 	//K2：每个域名最长内容位于的记录编号（Uninit）
-	int K1[11], K2[11];
 	//CH[][]   ：每个域名对应最长内容（Uninit）
 	//FP[]     ：文件路径
 	//*domain[]：域名（Uninit）
-	char CH[11][N], FP[] = "res/result.txt", *domain[11];
-	FILE *fp = fopen(FP, "w");
+	int K1[11], K2[11];
+	char CH[11][N], *domain[11];
+	FILE *fp = fopen(DestinationFilePath, "w");
 	if (!fp)
 	{
 		printf("File cannot open!\n");
@@ -215,28 +219,29 @@ int WriteFile(char buf[M][N],int n)
 			fprintf(fp, "域内容为：%s\n", CH[i]);
 			fprintf(fp, "\n");
 		}
-		fclose(fp);
-		return 1;
 	}
+	fclose(fp);
+	return 1;
 }//WriteFile
 
-/*************************************************
-*	函数名  ：ReorderWriteFiles                  *
-*   功能    ：重新排序写入文件                   *
-*	输入参数：buf[][]：二位字符串数组（Init）    *
-*             n      ：整型n（Init）             *
-*	输出参数：无                                 *
-*	返回值  ：0                                  *
-*************************************************/
-int ReorderWriteFiles(char buf[M][N], int n)
+/****************************************************
+*	函数名  ：ReorderWriteFiles                     *
+*   功能    ：重新排序写入文件                      *
+*	输入参数：SourceFilePath[N]：源文件路径（Init） *
+*             buf[][]：二位字符串数组（Init）       *
+*             n      ：整型n（Init）                *
+*	输出参数：无                                    *
+*	返回值  ：0                                     *
+****************************************************/
+int ReorderWriteFiles(char SourceFilePath[N], char buf[M][N], int n)
 {
 	//P   ：查找每个一对域名在每条记录中的位置
 	//CH[]：每个域名对应每条记录内容（Uninit）
 	//FP[]：文件路径
 	//K   ：负责给CH迭代使用
 	int P[2];
-	char CH[N], FP[] = "res/1.txt";
-	FILE *fp = fopen(FP, "w");
+	char CH[N];
+	FILE *fp = fopen(SourceFilePath, "w");
 	if (!fp)
 	{
 		printf("File cannot open!\n");
