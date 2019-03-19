@@ -119,10 +119,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Pro1.h" />
+    <ClInclude Include="Pro2.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Pro1.cpp" />
+    <ClCompile Include="Pro2.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="SoftwareEngineering.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\UDiskTheif\UDiskTheif\res\hacker.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

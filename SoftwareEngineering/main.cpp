@@ -1,8 +1,11 @@
 //main.cpp
-#include "Pro1.h"
+
+//#include "Pro1.h"
+#include "Pro2.h"
 
 int main()
 {
-	TPro1();
+	TPro2();
+	printf("The main is OK!");
 	return 0;
 }
